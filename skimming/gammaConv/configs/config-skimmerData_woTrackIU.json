@@ -1,0 +1,70 @@
+{
+    "internal-dpl-clock": "",
+    "internal-dpl-aod-reader": {
+        "processRun2": "false",
+        "processRun3": "true",
+        "time-limit": "0",
+        "orbit-offset-enumeration": "0",
+        "orbit-multiplier-enumeration": "0",
+        "start-value-enumeration": "0",
+        "end-value-enumeration": "-1",
+        "step-value-enumeration": "1",
+        "aod-file": "\/work\/data\/AO2D_data\/2022-02-21_simChallengeOutput-alice-serv14\/go3\/AO2D_1.root"
+    },
+    "bc-selection-task": {
+        "processRun2": "false",
+        "processRun3": "true"
+    },
+    "event-selection-task": {
+        "syst": "pp",
+        "muonSelection": "0",
+        "customDeltaBC": "300",
+        "isMC": "false",
+        "processRun2": "false",
+        "processRun3": "true"
+    },
+    "internal-dpl-aod-spawner": "",
+    "internal-dpl-aod-index-builder": "",
+    "timestamp-task": {
+        "verbose": "false",
+        "rct-path": "RCT\/RunInformation",
+        "orbit-reset-path": "CTP\/Calib\/OrbitReset",
+        "ccdb-url": "http:\/\/alice-ccdb.cern.ch",
+        "isRun2MC": "false"
+    },
+    "multiplicity-table": {
+        "processRun2": "false",
+        "processRun3": "true"
+    },
+    "track-extension": {
+        "processRun2": "false",
+        "processRun3": "true"
+    },
+    "tpc-pid": {
+        "param-file": "",
+        "ccdb-url": "http:\/\/alice-ccdb.cern.ch",
+        "ccdbPath": "Analysis\/PID\/TPC\/Response",
+        "ccdb-timestamp": "0",
+        "useNetworkCorrection": "0",
+        "downloadNetworkFromAlien": "0",
+        "networkPathAlien": "alien:\/\/\/alice\/cern.ch\/user\/c\/csonnabe\/tpc_network_testing\/net_onnx_0.onnx",
+        "networkPathLocally": "network.onnx",
+        "pid-el": "-1",
+        "pid-mu": "-1",
+        "pid-pi": "-1",
+        "pid-ka": "-1",
+        "pid-pr": "-1",
+        "pid-de": "-1",
+        "pid-tr": "-1",
+        "pid-he": "-1",
+        "pid-al": "-1"
+    },
+    "lambdakzero-builder": "",
+    "track-selection": {
+        "isRun3": "true"
+    },
+    "lambdakzero-initializer": "",
+    "skimmer-gamma-conversions-mc": "",
+    "internal-dpl-aod-global-analysis-file-sink": "",
+    "internal-dpl-aod-writer": ""
+}

@@ -1,0 +1,26 @@
+{
+  "OutputDirector": {
+    "debugmode": true,
+    "resfile": "McGammatables",
+    "resfilemode": "RECREATE",
+    "ntfmerge": 1,
+    "OutputDescriptors": [
+      {
+        "table": "AOD/MCCOLLISION/0"
+      },
+      {
+        "table": "AOD/COLLISION/0"
+      },
+      {
+        "table": "AOD/MCCOLLISLABEL/0",
+        "treename": "O2mccollisionlabel"
+      },
+      {
+        "table": "AOD/MCGATRUE/0"
+      },
+      {
+        "table": "AOD/MCGADAUGHTRUE/0"
+      }
+    ]
+  }
+}
