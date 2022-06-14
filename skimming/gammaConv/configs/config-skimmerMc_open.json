@@ -32,13 +32,13 @@
         "processRun3": "true"
     },
     "lambdakzero-builder": {
-        "dcanegtopv": "0.0100000001",
-        "dcapostopv": "0.0100000001",
+        "dcanegtopv": "0.00100000001",
+        "dcapostopv": "0.00100000001",
         "mincrossedrows": "0",
         "isRun2": "0",
         "d_bz": "-999",
-        "v0cospa": "0.795",
-        "dcav0dau": "1",
+        "v0cospa": "0.0995",
+        "dcav0dau": "100",
         "v0radius": "0.",
         "useMatCorrType": "0",
         "rejDiffCollTracks": "0",
