@@ -110,7 +110,6 @@ TCanvas* plotRatioWithTEfficiency(vector<TH1F*> theHistos, std::vector<std::stri
 void produceAfterburnerPlots(std::string theFnameNom="", std::string theFnameDen=""){
     gROOT->Reset();
 
-    bool lDoEffiPlot = true;// theFnameDen!="";
     std::vector<std::string> lNomDenFileNames{theFnameNom, theFnameDen=="" ? theFnameNom : theFnameDen};
 
     // convprob plot
@@ -134,7 +133,6 @@ void produceAfterburnerPlots(std::string theFnameNom="", std::string theFnameDen
 
 
     // efficiency plot
-    //~ if (lDoEffiPlot)
     {
         std::string lNamePDF("plot-efficiency.pdf");
         std::vector<std::string> lNomDenHistoPaths{
