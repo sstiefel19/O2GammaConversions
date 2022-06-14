@@ -1,0 +1,6 @@
+*.DS_Store
+*_C.d
+*_C.so
+*_rdict.pcm
+*.root
+dpl-config.json
