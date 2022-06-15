@@ -1,0 +1,35 @@
+{
+    "internal-dpl-clock": "",
+    "internal-dpl-aod-reader": {
+        "time-limit": "0",
+        "orbit-offset-enumeration": "0",
+        "orbit-multiplier-enumeration": "0",
+        "start-value-enumeration": "0",
+        "end-value-enumeration": "-1",
+        "step-value-enumeration": "1",
+        "aod-file": "../../run2_train272/V0tables.root"
+    },
+    "gamma-conversions": {
+        "fTrackEtaMax": "0.800000012",
+        "fTrackPtMin": "0.0399999991",
+        "fPIDnSigmaElectronMin": "0",
+        "fPIDnSigmaElectronMax": "3",
+        "fPIDPionRejectionPMin": "50.400000006",
+        "fPIDPionRejectionPBoarder": "8",
+        "fPIDnSigmaAbovePionLineLowPMin": "3",
+        "fPIDnSigmaAbovePionLineHighPMin": "1",
+        "fMinTPCNClsFoundOverFindable": "0.",
+        "fMinTPCCrossedRowsOverFindableCls": "0",
+        "fV0CosPAngleMin": "-0.850000024",
+        "fV0RMin": "5",
+        "fV0RMax": "180",
+        "fV0PhotonAsymmetryMax": "-0.949999988",
+        "fV0PsiPairMax": "-0.100000001",
+        "fV0QtPtMultiplicator": "0.109999999",
+        "fV0QtMax": "0.0399999991",
+        "processRec": "true",
+        "processMc": "false"
+    },
+    "internal-dpl-injected-dummy-sink": "",
+    "internal-dpl-aod-global-analysis-file-sink": ""
+}
