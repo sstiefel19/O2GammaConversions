@@ -7,7 +7,7 @@
         "start-value-enumeration": "0",
         "end-value-enumeration": "-1",
         "step-value-enumeration": "1",
-        "aod-file": "../../run2_train272/V0tables.root"
+        "aod-file": "../../exampleOutputs/run2_train272/V0tables.root"
     },
     "gamma-conversions": {
         "fTrackEtaMax": "0.800000012",
