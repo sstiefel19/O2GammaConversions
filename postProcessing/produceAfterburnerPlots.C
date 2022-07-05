@@ -38,7 +38,8 @@ void plotTH1(TH1 *theHisto, TString &theMotherListName){
     delete lCanvas;
 }
 
-TCanvas* plotRatioWithTEfficiency(vector<TH1F*> theHistos, std::vector<std::string> *theNames=nullptr, size_t theNrebin=1, std::string theTitle="plotRatioWithTEfficiency", std::string theXaxis="theXaxis", std::string theYaxis="theYaxis", float theYup=1.0, bool theWithErrors=true){
+template <typename T>
+TCanvas* plotRatioWithTEfficiency(vector<T*> theHistos, std::vector<std::string> *theNames=nullptr, size_t theNrebin=1, std::string theTitle="plotRatioWithTEfficiency", std::string theXaxis="theXaxis", std::string theYaxis="theYaxis", float theYup=1.0, bool theWithErrors=true){
 
     if (!theNames){
         theNames = new std::vector<std::string>{};
@@ -53,11 +54,11 @@ TCanvas* plotRatioWithTEfficiency(vector<TH1F*> theHistos, std::vector<std::stri
         }
     }
 
-    if (theNrebin>1){
-        for (auto _ : theHistos){
-            _->Rebin(theNrebin);
-        }
-    }
+    //~ if (theNrebin>1){
+        //~ for (auto _ : theHistos){
+            //~ _->Rebin(theNrebin);
+        //~ }
+    //~ }
 
     TH1 *hPass = theHistos[0];
     TH1 *hTotal = theHistos[1];
@@ -74,7 +75,7 @@ TCanvas* plotRatioWithTEfficiency(vector<TH1F*> theHistos, std::vector<std::stri
     TCanvas* c6 = new TCanvas("c6", "c6",800,600);
     hTotal->Draw();
 
-    for (int i=0; i<=801; ++i){
+    for (int i=0; i<=hPass->GetNbinsX()+1; ++i){
         int lPassed = hPass->GetBinContent(i);
         int lTotal = hTotal->GetBinContent(i);
         printf("bin: %i centered at: %f passed: %i total: %i\n", i, hPass->GetXaxis()->GetBinCenter(i), lPassed, lTotal);
@@ -98,13 +99,87 @@ TCanvas* plotRatioWithTEfficiency(vector<TH1F*> theHistos, std::vector<std::stri
         lEff->Draw("AP");
         gPad->Update();
         auto lGraph = lEff->GetPaintedGraph();
-        lGraph->SetMinimum(0.);
+        lGraph->SetMinimum(-0.02);
         lGraph->SetMaximum(theYup);
         gPad->Update();
         return c7;
     }
     return nullptr;
 }
+
+
+void plotEfficiencyVsR(std::vector<std::string>& theNomDenFileNames)
+{
+    std::string lNamePDF("plot-efficiency_r.pdf");
+    std::vector<std::string> lNomDenHistoPaths{
+        { "gamma-conversions/V0/beforeRecCuts/MCTrue/hConvPointRPt_MCTrue" },
+        { "gamma-conversions-truth-only-mc/hGammaConvertedRPt_MCTrue" }
+    };
+
+    std::vector<TH2F*> lNomDenHistos;
+    for (auto i : util::lang::indices(lNomDenHistoPaths)){
+        lNomDenHistos.push_back((TH2F*)getObjectFromPathInFile(theNomDenFileNames[i],lNomDenHistoPaths[i]));
+    }
+
+
+    float_t lPtMin = 0.5;
+    std::vector<TH1D*> lProjections;
+
+    for (auto h : lNomDenHistos){
+
+        // make projections on x axis to integrate over certain pT range
+        int iBinPtMin = h->GetYaxis()->FindBin(lPtMin);
+        lProjections.push_back(h->ProjectionX("_px", iBinPtMin));
+
+        lProjections.back()->Rebin(8);
+    }
+
+    TCanvas *lCanvas = plotRatioWithTEfficiency(lProjections, nullptr, 1, Form("converted photons v0 reconstruction efficiency, p_T > %.2f GeV/c", lPtMin), "conversion radius (cm)", "#epsilon_{#gamma}^{reco.}", 0.5);
+    if (lCanvas){
+        //lCanvas->SetLogy();
+        lCanvas->Update();
+        lCanvas->SaveAs(lNamePDF.data());
+    }
+}
+
+void plotEfficiencyVspT(std::vector<std::string>& theNomDenFileNames)
+{
+    std::string lNamePDF("plot-efficiency_pt.pdf");
+    std::vector<std::string> lNomDenHistoPaths{
+        //~ { "gamma-conversions/V0/beforeRecCuts/MCTrue/hConvPointRPt_MCTrue" },
+        { "gamma-conversions/V0/beforeRecCuts/MCTrue/hRPt_MCTrue" },
+        { "gamma-conversions-truth-only-mc/hGammaConvertedRPt_MCTrue" }
+    };
+
+    std::vector<TH2F*> lNomDenHistos;
+    for (auto i : util::lang::indices(lNomDenHistoPaths)){
+        lNomDenHistos.push_back((TH2F*)getObjectFromPathInFile(theNomDenFileNames[i],lNomDenHistoPaths[i]));
+    }
+
+
+    float_t lRmin = 0.;
+    float_t lRmax = 180.;
+    std::vector<TH1D*> lProjections;
+
+    for (auto h : lNomDenHistos){
+
+        // make projections onto y axis to integrate over certain pT range
+        int iBinRMin = h->GetXaxis()->FindBin(lRmin);
+        int iBinRMax = h->GetXaxis()->FindBin(lRmax);
+        lProjections.push_back(h->ProjectionY("_py", iBinRMin, iBinRMax));
+
+        lProjections.back()->Rebin(4);
+    }
+
+    TCanvas *lCanvas = plotRatioWithTEfficiency(lProjections, nullptr, 1, Form("converted photons v0 reconstruction efficiency, %.1f cm < r_conv < %.1f cm", lRmin, lRmax), "p_T (GeV)", "#epsilon_{#gamma}^{reco.}", 0.5);
+    if (lCanvas){
+        //lCanvas->SetLogy();
+        lCanvas->Update();
+        lCanvas->SaveAs(lNamePDF.data());
+    }
+}
+
+
 
 
 void produceAfterburnerPlots(std::string theFnameNom="", std::string theFnameDen=""){
@@ -132,24 +207,7 @@ void produceAfterburnerPlots(std::string theFnameNom="", std::string theFnameDen
     //~ }
 
 
-    // efficiency plot
-    {
-        std::string lNamePDF("plot-efficiency.pdf");
-        std::vector<std::string> lNomDenHistoPaths{
-            { "gamma-conversions/V0/beforeRecCuts/MCTrue/hPt_MCTrue" },
-            { "gamma-conversions-truth-only-mc/hGammaConvertedPt_Rsel_MCTrue" }
-        };
 
-        std::vector<TH1F*> lNomDenHistos;
-        for (auto i : util::lang::indices(lNomDenHistoPaths)){
-            lNomDenHistos.push_back((TH1F*)getObjectFromPathInFile(lNomDenFileNames[i],lNomDenHistoPaths[i]));
-        }
-
-        TCanvas *lCanvas = plotRatioWithTEfficiency(lNomDenHistos, nullptr, 4, "converted photons v0 reconstruction efficiency", "p_T (GeV)", "#epsilon_{#gamma}^{reco.}", 1.0);
-        if (lCanvas){
-            //lCanvas->SetLogy();
-            lCanvas->Update();
-            lCanvas->SaveAs(lNamePDF.data());
-        }
-    }
+    //~ plotEfficiencyVsR(lNomDenFileNames);
+    plotEfficiencyVspT(lNomDenFileNames);
 }
