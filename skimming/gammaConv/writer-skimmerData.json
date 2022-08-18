@@ -16,6 +16,9 @@
       },
       {
         "table": "AOD/V0TRACKS/0"
+      },
+      {
+        "table": "AOD/V0RECALCULATED/0"
       }
     ]
   }

@@ -19,6 +19,9 @@
       },
       {
         "table": "AOD/MCGATRUE/0"
+      },
+      {
+        "table": "AOD/V0RECALCULATED/0"
       }
     ]
   }
